@@ -75,7 +75,8 @@ var RH = new Vue ({
             var j1 = moment(this.dateFin);
             var duree = 0;
 
-            if (this.dateDebut==this.dateFin) {duree = 1;}
+            console.log(j0);
+            if (!isNaN(j0) && this.dateDebut==this.dateFin) {duree = 1;}
             else {duree = j1.diff(j0,"days");}
 
             if (!isNaN(duree)) {
