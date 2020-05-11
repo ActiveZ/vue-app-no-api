@@ -42,9 +42,15 @@
             height: 40px;
             font-size:x-large;
         }
+
         p {
             font-weight: bold;
         }
+
+        span {
+            color:red;
+        }
+
     </style>
 </head>
 
@@ -67,9 +73,9 @@
     </p>
 
     <div id="result">
-    <p>Durée du contrat: {{ calcDuree() }}</p>
-    <p>ETP: {{ calcETP() }}</p>
-    <p>Congés: {{ calcConges() }} jours</p>
+    <p>Durée du contrat:<br> <span>{{ calcDuree() }}</span></p>
+    <p>ETP: <span>{{ calcETP() }}</span></p>
+    <p>Congés: <span>{{ calcConges() }}</span></p>
     </div>
 </fieldset>
 
@@ -108,9 +114,9 @@ var RH = new Vue ({
         calcDuree: function() {
             var j0 = moment(this.dateDebut);
             var j1 = moment(this.dateFin);
-            var duree = 0;
+            //var duree = 0;
 
-            duree = j1.diff(j0,"days");
+            var duree = j1.diff(j0,"days");
             if (!isNaN(duree)) {
                     duree++;
                     if (duree > 365) {
@@ -122,7 +128,7 @@ var RH = new Vue ({
                         return duree + " jours (" + (duree*24) + " heures)"; 
                     }
             }
-            return 0;
+            return "";
         },
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -135,7 +141,10 @@ var RH = new Vue ({
                 conges = Math.ceil((this.duree/28)*2.08);
                 if (conges > 25) {conges = 25;}
             }
-            return conges;
+
+            if (conges == 0) {return "";}
+            if (conges == 1) {return "1 jour";}
+            else {return (conges + " jours")};
         }
     }
 })
