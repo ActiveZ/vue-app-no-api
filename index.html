@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Aide aux RH</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+        body {
+            background-color: darkgray;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #nbHeure {
+            width: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>APPLICATION   RH</h1>
+<fieldset id="main" v-cloak>
+    <legend>Contrat de travail</legend>
+    <p>
+        Début de contrat:<br>
+        <input type="date" v-model="dateDebut">
+    </p>
+    <p>
+        Fin de contrat:<br>
+        <input type="date" v-model="dateFin">
+    </p>
+    <p>
+        Heures hebdomadaires:<br>
+        <input type="number" v-model="nbHeure" id="nbHeure" min="0" max="70">
+    </p>
+
+    <p>Durée du contrat: {{ calcDuree() }}</p>
+    <p>ETP: {{ calcETP() }}</p>
+    <p>Congés: {{ calcConges() }} jours</p>
+</fieldset>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+
+<script>
+//https://momentjs.com/
+moment().format();
+
+var RH = new Vue ({
+    el: "#main",
+    data: {
+        nbHeure: "35",
+        dateDebut: "",
+        dateFin: "",
+        duree: 0
+    },
+
+    methods: {
+        calcETP: function() {
+            return Math.ceil(this.nbHeure/35*100) + " %";
+        },
+
+
+        calcDuree: function() {
+            var j0 = moment(this.dateDebut);
+            var j1 = moment(this.dateFin);
+            var duree = 0;
+
+            if (this.dateDebut==this.dateFin) {duree = 1;}
+            else {duree = j1.diff(j0,"days");}
+
+            if (!isNaN(duree)) {
+                    if (duree > 365) {
+                        this.duree = 0;
+                        alert("ERREUR: contrat supérieur à 1 an !");
+                        return 0;
+                    } else {
+                        this.duree=duree; 
+                        return duree + " jours (" + (duree*24) + " heures)"; 
+                    }
+            }
+            return 0;
+        },
+
+
+        calcConges: function() { // 28 jours ou 28 jours ETP ???
+            var conges = Math.ceil((this.duree/28)*2.08);
+            if (conges > 25) {conges = 25;}
+            return conges;
+        }
+    }
+})
+</script>
+</body>
+</html>
