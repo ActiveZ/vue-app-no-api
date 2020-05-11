@@ -21,15 +21,29 @@
         }
 
         fieldset {
-            border:inset 8px violet;
+            background-image: url("alu larmé.jpg");
+            background-size: contain;
+
+            border:inset 8px silver;
             border-radius: 15px;
             text-align: center;
+        }
+
+        #result {
+            /*border: solid 3px red;*/
+            border-radius: 10px;
+            background-color:silver;
+            opacity: 0.5;
+            padding: 3px;
         }
 
         #nbHeure {
             width: 60px;
             height: 40px;
             font-size:x-large;
+        }
+        p {
+            font-weight: bold;
         }
     </style>
 </head>
@@ -52,10 +66,16 @@
         <input type="number" v-model="nbHeure" id="nbHeure" min="0" max="70">
     </p>
 
+    <div id="result">
     <p>Durée du contrat: {{ calcDuree() }}</p>
     <p>ETP: {{ calcETP() }}</p>
     <p>Congés: {{ calcConges() }} jours</p>
+    </div>
 </fieldset>
+
+<!--------------------------------------------------------------------------------------->
+<!-------------------------------------- SCRIPTS ---------------------------------------->
+<!--------------------------------------------------------------------------------------->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
@@ -74,11 +94,17 @@ var RH = new Vue ({
     },
 
     methods: {
+
+////////////////////////////////////////////////////////////////////////////////////
+
+        // calcul Equivalent Temps Plein en fonction de la durée hebdomadaire de travail
         calcETP: function() {
             return Math.ceil(this.nbHeure/35*100) + " %";
         },
 
+////////////////////////////////////////////////////////////////////////////////////
 
+        // calcul de la durée du contrat en jours et en heures en fonction des dates debut/fin contrat
         calcDuree: function() {
             var j0 = moment(this.dateDebut);
             var j1 = moment(this.dateFin);
@@ -99,7 +125,9 @@ var RH = new Vue ({
             return 0;
         },
 
+////////////////////////////////////////////////////////////////////////////////////
 
+        // calcul des jours de congés relatifs au nb de jours travaillés
         calcConges: function() { // 28 jours ou 28 jours ETP ???
             var conges = 0;
 
