@@ -33,6 +33,10 @@ fieldset {
     font-size:x-large; */
 }
 
+h1 {
+    margin: 0px;
+}
+
 p {
     font-weight: bold;
 }
