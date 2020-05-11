@@ -27,7 +27,7 @@
 
 <body>
 
-<h1>APPLICATION   RH</h1>
+<h1>AIDE AU RH</h1>
 <fieldset id="main" v-cloak>
     <legend>Contrat de travail</legend>
     <p>
@@ -80,6 +80,7 @@ var RH = new Vue ({
             else {duree = j1.diff(j0,"days");}
 
             if (!isNaN(duree)) {
+                    duree++;
                     if (duree > 365) {
                         this.duree = 0;
                         alert("ERREUR: contrat supérieur à 1 an !");
@@ -94,8 +95,12 @@ var RH = new Vue ({
 
 
         calcConges: function() { // 28 jours ou 28 jours ETP ???
-            var conges = Math.ceil((this.duree/28)*2.08);
-            if (conges > 25) {conges = 25;}
+            var conges = 0;
+            
+            if (this.duree > 27 ) {
+                conges = Math.ceil((this.duree/28)*2.08);
+                if (conges > 25) {conges = 25;}
+            }
             return conges;
         }
     }
