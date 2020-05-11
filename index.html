@@ -75,10 +75,7 @@ var RH = new Vue ({
             var j1 = moment(this.dateFin);
             var duree = 0;
 
-            console.log(j0);
-            if (!isNaN(j0) && this.dateDebut==this.dateFin) {duree = 1;}
-            else {duree = j1.diff(j0,"days");}
-
+            duree = j1.diff(j0,"days");
             if (!isNaN(duree)) {
                     duree++;
                     if (duree > 365) {
@@ -96,7 +93,7 @@ var RH = new Vue ({
 
         calcConges: function() { // 28 jours ou 28 jours ETP ???
             var conges = 0;
-            
+
             if (this.duree > 27 ) {
                 conges = Math.ceil((this.duree/28)*2.08);
                 if (conges > 25) {conges = 25;}
