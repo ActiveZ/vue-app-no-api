@@ -76,7 +76,7 @@ var RH = new Vue ({
                     if (duree > 365) {
                         this.duree = 0;
                         alert("ERREUR: contrat supérieur à 1 an !");
-                        return 0;
+                        return "";
                     } else {
                         this.duree=duree; 
                         return duree + " jours (" + (duree*24) + " heures)"; 
